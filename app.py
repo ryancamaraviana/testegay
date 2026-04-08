@@ -1,15 +1,15 @@
-from flask import Flask, request, redirect, url_for
+from flask import Flask, request
 import random
 
 app = Flask(__name__)
 
-# 🔹 PÁGINA INICIAL
+# 🔹 HOME
 @app.route("/", methods=["GET"])
 def home():
     return """
     <html>
     <head>
-        <title>Sistema Supremo</title>
+        <title>Teste gay</title>
 
         <style>
             body {
@@ -17,9 +17,7 @@ def home():
                 text-align: center;
                 font-family: Arial;
                 color: white;
-                background: linear-gradient(
-                    red, orange, yellow, green, blue, purple
-                );
+                background: linear-gradient(red, orange, yellow, green, blue, purple);
             }
 
             input {
@@ -40,8 +38,8 @@ def home():
 
     <body>
 
-    <h1>🏳️‍🌈 SISTEMA SUPREMO 🏳️‍🌈</h1>
-
+    <h1>🏳️‍🌈 Veja se você é gay 🏳️‍🌈</h1>
+    
     <form action="/resultado" method="POST">
         <input type="text" name="nome" placeholder="Digite seu nome..." required>
         <br>
@@ -53,24 +51,85 @@ def home():
     """
 
 
-# 🔹 PÁGINA DE RESULTADO
+# 🔹 RESULTADO
 @app.route("/resultado", methods=["POST"])
 def resultado():
     nome = request.form.get("nome")
 
-    porcentagem = random.randint(80, 100)
+    # 🔥 MODO RYAN (vídeo)
+    if nome and nome.strip().lower().startswith("ryan"):
+        return """
+        <html>
+        <head>
+            <style>
+                body {
+                    margin: 0;
+                    height: 100vh;
+                    background: black;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                video {
+                    max-width: 100%;
+                    max-height: 100%;
+                    object-fit: contain;
+                }
+
+                button {
+                    position: absolute;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    padding: 10px 20px;
+                    background: white;
+                    color: black;
+                    border: none;
+                    cursor: pointer;
+                }
+            </style>
+        </head>
+
+        <body>
+
+        <video id="video" autoplay loop>
+            <source src="/static/layout.mp4" type="video/mp4">
+        </video>
+
+        <button onclick="window.location.href='/'">
+            FAZER O TESTE NOVAMENTE
+        </button>
+
+        <script>
+            const video = document.getElementById("video");
+            video.muted = false;
+
+            video.play().catch(() => {
+                document.body.addEventListener("click", () => {
+                    video.play();
+                });
+            });
+        </script>
+
+        </body>
+        </html>
+        """
+
+    # 🔽 MODO NORMAL (VOLTOU COMPLETO 🔥)
+    porcentagem = random.randint(90, 100)
 
     frases = [
-        "fala 'coé' automaticamente",
-        "vive na praia",
-        "escuta funk no talo",
-        "usa chinelo até em casamento",
-        "já chamou alguém de 'cria'"
+        "já fez menáge com homens",
+        "odeia molieress",
+        "gosta do negão dentro",
+        "gosta do grosso dentro",
+        "gosta de dotados"
     ]
 
     motivo = random.choice(frases)
 
-    resultado = f"{nome}, nível de carioca: {porcentagem}% 😂 - {motivo}"
+    resultado = f"{nome}, nível de viadagem: {porcentagem}%  - {motivo}"
 
     return f"""
     <html>
@@ -101,7 +160,7 @@ def resultado():
             .flag {{
                 position: absolute;
                 font-size: 30px;
-                animation: subir 3s linear forwards;
+                animation: subir 10000000s linear forwards;
             }}
 
             @keyframes subir {{
@@ -125,7 +184,9 @@ def resultado():
     <h1>⚠️ PROCESSANDO ⚠️</h1>
     <h2>{resultado}</h2>
 
-    <button onclick="voltar()">TESTAR DE NOVO</button>
+    <button onclick="window.location.href='/'">
+        TESTAR DE NOVO
+    </button>
 
     <audio id="musica" autoplay>
         <source src="/static/musica.mp3" type="audio/mpeg">
@@ -149,10 +210,6 @@ def resultado():
             document.body.appendChild(flag);
         }}
     }}
-
-    function voltar() {{
-        window.location.href = "/";
-    }}
     </script>
 
     </body>
@@ -161,4 +218,4 @@ def resultado():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
