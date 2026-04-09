@@ -1,5 +1,6 @@
 from flask import Flask, request
 import random
+import os
 
 app = Flask(__name__)
 
@@ -56,7 +57,7 @@ def home():
 def resultado():
     nome = request.form.get("nome")
 
-    # 🔥 MODO RYAN (vídeo)
+    # 🔥 MODO RYAN (vídeo perfeito)
     if nome and nome.strip().lower().startswith("ryan"):
         return """
         <html>
@@ -72,8 +73,8 @@ def resultado():
                 }
 
                 video {
-                    max-width: 100%;
-                    max-height: 100%;
+                    width: 100vw;
+                    height: 100vh;
                     object-fit: contain;
                 }
 
@@ -93,7 +94,7 @@ def resultado():
 
         <body>
 
-        <video id="video" autoplay loop>
+        <video autoplay loop playsinline id="video">
             <source src="/static/layout.mp4" type="video/mp4">
         </video>
 
@@ -103,12 +104,13 @@ def resultado():
 
         <script>
             const video = document.getElementById("video");
+
             video.muted = false;
 
             video.play().catch(() => {
                 document.body.addEventListener("click", () => {
                     video.play();
-                });
+                }, { once: true });
             });
         </script>
 
@@ -116,20 +118,20 @@ def resultado():
         </html>
         """
 
-    # 🔽 MODO NORMAL (VOLTOU COMPLETO 🔥)
+    # 🔽 MODO NORMAL
     porcentagem = random.randint(90, 100)
 
     frases = [
-        "já fez menáge com homens",
-        "odeia molieress",
+        "odeia molieres",
         "gosta do negão dentro",
-        "gosta do grosso dentro",
-        "gosta de dotados"
+        "já fez ménage com homens kkj",
+        "gosta do grosso",
+        "senta na jiromba todo dia"
     ]
 
     motivo = random.choice(frases)
 
-    resultado = f"{nome}, nível de viadagem: {porcentagem}%  - {motivo}"
+    resultado = f"{nome}, nível de viadagem: {porcentagem}% - {motivo}"
 
     return f"""
     <html>
@@ -188,14 +190,20 @@ def resultado():
         TESTAR DE NOVO
     </button>
 
-    <audio id="musica" autoplay>
+    <audio id="musica" autoplay muted>
         <source src="/static/musica.mp3" type="audio/mpeg">
     </audio>
 
     <script>
     function ativarModo() {{
         let audio = document.getElementById("musica");
-        audio.play();
+
+        audio.muted = false;
+        audio.play().catch(() => {{
+            document.body.addEventListener("click", () => {{
+                audio.play();
+            }}, {{ once: true }});
+        }});
 
         document.body.classList.add("rainbow");
 
@@ -217,5 +225,6 @@ def resultado():
     """
 
 
-import os
-app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
+# 🔥 RENDER
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
