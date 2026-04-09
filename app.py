@@ -57,7 +57,7 @@ def home():
 def resultado():
     nome = request.form.get("nome")
 
-    # 🔥 MODO RYAN (vídeo perfeito)
+    # 🔥 MODO RYAN (VÍDEO FUNCIONANDO)
     if nome and nome.strip().lower().startswith("ryan"):
         return """
         <html>
@@ -94,7 +94,7 @@ def resultado():
 
         <body>
 
-        <video autoplay loop playsinline id="video">
+        <video id="video" autoplay loop muted playsinline>
             <source src="/static/layout.mp4" type="video/mp4">
         </video>
 
@@ -105,9 +105,9 @@ def resultado():
         <script>
             const video = document.getElementById("video");
 
-            video.muted = false;
-
-            video.play().catch(() => {
+            video.play().then(() => {
+                video.muted = false;
+            }).catch(() => {
                 document.body.addEventListener("click", () => {
                     video.play();
                 }, { once: true });
@@ -198,8 +198,9 @@ def resultado():
     function ativarModo() {{
         let audio = document.getElementById("musica");
 
-        audio.muted = false;
-        audio.play().catch(() => {{
+        audio.play().then(() => {{
+            audio.muted = false;
+        }}).catch(() => {{
             document.body.addEventListener("click", () => {{
                 audio.play();
             }}, {{ once: true }});
